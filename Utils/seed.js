@@ -47,7 +47,27 @@ console.log("Data was created sucessfully");
         }else{
             console.log("data already exists")
         }
+// making thoughts with reactions
+if (existingThought.length === 0){
+const thoughtUserA = await User.findOne({username: "UserA"});
+const thoughtUserB = await User.findOne({username: "UserB"});
+const thoughtUserC = await User.findOne({username: "UserC"});
+const thoughtUserD = await User.findOne({username: "UserD"});
 
+const thoughtA = await Thought.create({
+    thoughtText: "Here is a thought A",
+    username: thoughtUserA.username,
+    createdAt: new Date(),
+    reactions:[
+        {
+        reactionBody: "I aknowledge your thought.",
+        username: thoughtUserB.username,
+        createdAt: new Date(),
+        reactionID: newmongoose.Types.ObjectID
+        
+    }
+})
+}
 
 
 
