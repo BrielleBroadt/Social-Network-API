@@ -9,8 +9,26 @@ const seedData = async () => {
 // Creating a user for db
         if (existingUser.length === 0){
             const UserA = await User.create({
-                username: "userA",
+                username: "UserA",
                 email: "userA@test.com",
+                thought: [],
+                friends: [],
+            });
+            const UserB = await User.create({
+                username: "userB",
+                email: "userB@test.com",
+                thought: [],
+                friends: [],
+            });
+            const UserC = await User.create({
+                username: "userC",
+                email: "userC@test.com",
+                thought: [],
+                friends: [],
+            });
+            const UserD = await User.create({
+                username: "userD",
+                email: "userD@test.com",
                 thought: [],
                 friends: [],
             });
