@@ -67,7 +67,7 @@ const thoughtA = await Thought.create({
         
     },
 ],
-}),
+})
 
 const thoughtB = await Thought.create({
     thoughtText: "This is my thought",
