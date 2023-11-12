@@ -65,12 +65,41 @@ const thoughtA = await Thought.create({
         createdAt: new Date(),
         reactionID: newmongoose.Types.ObjectID
         
-    }
-})
-}
+    },
+],
+}),
 
+const thoughtB = await Thought.create({
+    thoughtText: "This is my thought",
+    username: thoughtUserB.username,
+    createdAt: new Date(),
+    reactions: [
+      {
+        reactionBody: "I love that ",
+        username: thoughtUserB.username,
+        createdAt: new Date(),
+        reactionId: new mongoose.Types.ObjectId(),
+      },
+    ],
+  });
 
+  const thoughtC = await Thought.create({
+    thoughtText: "Heres my 3rd thought",
+    username: thoughtUserC.username,
+    createdAt: new Date(),
+    reactions: [],
+  });
 
-        }
-    }
-}
+  const thoughtD = await Thought.create({
+    thoughtText: "Heres my 4th thought",
+    username: thoughtUserD.username,
+    createdAt: new Date(),
+    reactions: [],
+  });  
+
+  thoughtUserA.thoughts.push(thoughtA);
+  thoughtUserB.thoughts.push(thoughtB);
+  thoughtUserC.thoughts.push(thoughtC);
+  thoughtUserD.thoughts.push(thoughtD);
+
+    

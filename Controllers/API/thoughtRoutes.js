@@ -41,4 +41,6 @@ router.get("/:thoughtId", async (req, res) => {
       res.status(500).json(err);
     }
   });
+
+  module.exports = router;
   
