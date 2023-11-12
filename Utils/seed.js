@@ -53,7 +53,7 @@ const thoughtUserA = await User.findOne({username: "UserA"});
 const thoughtUserB = await User.findOne({username: "UserB"});
 const thoughtUserC = await User.findOne({username: "UserC"});
 const thoughtUserD = await User.findOne({username: "UserD"});
-
+// creating thoughs for users
 const thoughtA = await Thought.create({
     thoughtText: "Here is a thought A",
     username: thoughtUserA.username,
@@ -96,10 +96,28 @@ const thoughtB = await Thought.create({
     createdAt: new Date(),
     reactions: [],
   });  
-
+// pushing thoughts through
   thoughtUserA.thoughts.push(thoughtA);
   thoughtUserB.thoughts.push(thoughtB);
   thoughtUserC.thoughts.push(thoughtC);
   thoughtUserD.thoughts.push(thoughtD);
 
-    
+  await thoughtUserA.save();
+  await thoughtUserB.save();
+  await thoughtUserC.save();
+  await thoughtUserD.save();
+
+
+  console.log("Data for thoughts are succesful");
+} else {
+  console.log("Data is already stored.");
+}
+
+process.exit(0);
+} catch (err) {
+console.error(err);
+process.exit(1);
+}
+};
+
+seedData();    
