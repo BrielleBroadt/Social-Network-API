@@ -1,10 +1,15 @@
-const router = require("express").Router();
-const { User, Thought } = require("../../Models");
+const router = require("express").Router()
+const {User, Thought}= require("../../Models")
+// const express = require('express');
+// const app = express();
 const mongoose = require("mongoose");
+
+// app.use(express.json());
 // Get request for "thoughts"
 router.get("/", async (req, res) => {
   try {
     const allThoughts = await Thought.find();
+    res.header("Content-Type", "application/json");
     return res.json(allThoughts);
   } catch (err) {
     res.status(500).json(err);
@@ -41,7 +46,21 @@ router.get("/:thoughtId", async (req, res) => {
       res.status(500).json(err);
     }
   });
-
+  router.put("/:thoughtId", async (req, res) => {
+    try {
+      const updateThought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        req.body,
+        { new: true }
+      );
+      if (!updateThought) {
+        return res.status(400).json({ message: "No thought with that ID" });
+      }
+      return res.json(updateThought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
   router.delete("/:thoughtId", async (req, res) => {
     try {
       const deleteThought = await Thought.findByIdAndDelete(req.params.thoughtId);
@@ -96,5 +115,5 @@ router.get("/:thoughtId", async (req, res) => {
       res.status(500).json(err);
     }
   });
-  module.exports = router;
+  module.exports= router;
   
