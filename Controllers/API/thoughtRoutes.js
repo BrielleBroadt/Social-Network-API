@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
-// Get request for "thoughtID"
+// Get request for thought
 router.get("/:thoughtId", async (req, res) => {
     try {
       const singleThought = await Thought.findOne({ _id: req.params.thoughtId });
@@ -22,7 +22,7 @@ router.get("/:thoughtId", async (req, res) => {
       res.status(500).json(err);
     }
   });
-// POST requests to create a new Thought and associate it with  User
+// POST requests to create a new Thought with user
   router.post("/", async (req, res) => {
     try {
       const newThought = await Thought.create(req.body);
@@ -42,5 +42,59 @@ router.get("/:thoughtId", async (req, res) => {
     }
   });
 
+  router.delete("/:thoughtId", async (req, res) => {
+    try {
+      const deleteThought = await Thought.findByIdAndDelete(req.params.thoughtId);
+      if (!deleteThought) {
+        return res.status(400).json({ message: "No thought with that ID" });
+      }
+      return res.json(deleteThought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+  
+  router.post("/:thoughtId/reactions", async (req, res) => {
+    try {
+      const thought = await Thought.findById(req.params.thoughtId);
+      if (!thought) {
+        return res.status(400).json({ message: "No thought with that ID" });
+      }
+      const newReactionId = new mongoose.Types.ObjectId();
+      thought.reactions.push({
+        reactionId: newReactionId,
+        ...req.body,
+      });
+      const newReaction = await thought.save();
+  
+      return res.json(newReaction);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+  
+  router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
+    try {
+      const thought = await Thought.findById(req.params.thoughtId);
+      if (!thought) {
+        return res.status(400).json({ message: "No thought with that ID" });
+      }
+      const reactionId = req.params.reactionId;
+      const reactionIndex = thought.reactions.findIndex(
+        (reaction) => reaction.reactionId.toString() === reactionId
+      );
+  
+      if (reactionIndex === -1) {
+        return res.status(400).json({ message: "No reaction with that ID" });
+      }
+  
+      thought.reactions.splice(reactionIndex, 1);
+      const updatedThought = await thought.save();
+  
+      return res.json(updatedThought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
   module.exports = router;
   
