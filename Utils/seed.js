@@ -1,4 +1,4 @@
-const connection = require(".//Config/Connection");
+const connection = require("../Config/connection");
 const { Thought, User } = require("../Models");
 const mongoose = require("mongoose");
 
@@ -63,7 +63,7 @@ const thoughtA = await Thought.create({
         reactionBody: "I aknowledge your thought.",
         username: thoughtUserB.username,
         createdAt: new Date(),
-        reactionID: newmongoose.Types.ObjectID
+        reactionID: new mongoose.Types.ObjectID
         
     },
 ],
